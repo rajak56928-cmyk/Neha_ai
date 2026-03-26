@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Neha AI | New Aesthetic DP Mode</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root { 
+            --primary: #ff4d94; 
+            --secondary: #704dff; 
+            --mic-glow: rgba(255, 77, 148, 0.6);
+            /* NEW PINKISH AESTHETIC AVATAR */
+            --neha-avatar: url('https://img.freepik.com/free-photo/cute-girl-with-pink-hair-blue-eyes_23-2151034442.jpg');
+        }
+        
+        body { 
+            background: #050507; 
+            color: #fff; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            height: 100vh; 
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 10% 10%, rgba(255, 77, 148, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 90%, rgba(112, 77, 255, 0.15) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        header {
+            padding: 50px 20px 10px; 
+            background: rgba(0,0,0,0.8); 
+            backdrop-filter: blur(20px);
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .avatar-frame { 
+            width: 50px; height: 50px; border-radius: 16px; 
+            border: 2px solid var(--primary); 
+            box-shadow: 0 0 15px var(--mic-glow);
+            background-image: var(--neha-avatar);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .love-meter-container { height: 4px; background: rgba(255,255,255,0.1); width: 100%; }
+        #loveBar { height: 100%; width: 95%; background: var(--primary); transition: 1s; box-shadow: 0 0 10px var(--primary); }
+
+        .stories-container {
+            display: flex; gap: 12px; padding: 12px 20px; overflow-x: auto;
+            scrollbar-width: none; background: rgba(0,0,0,0.2);
+        }
+        .stories-container::-webkit-scrollbar { display: none; }
+        .story-item {
+            width: 55px; height: 55px; border-radius: 50%; padding: 2px;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            flex-shrink: 0;
+        }
+        .story-item .img-box { 
+            width: 100%; height: 100%; border-radius: 50%; border: 2px solid #000; 
+            background-image: var(--neha-avatar); background-size: cover; background-position: center;
+        }
+
+        #chatDisplay {
+            flex: 1; overflow-y: auto; padding: 20px; 
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        #chatDisplay::-webkit-scrollbar { display: none; }
+
+        .bubble { 
+            max-width: 80%; padding: 12px 16px; border-radius: 20px; 
+            font-size: 14px; animation: slideIn 0.3s ease; position: relative;
+        }
+        .ai-bubble { align-self: flex-start; background: #151517; border: 1px solid rgba(255,255,255,0.05); }
+        .user-bubble { align-self: flex-end; background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+
+        .voice-tag { font-size: 10px; color: var(--primary); margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+
+        .keyboard-area {
+            padding: 15px 20px calc(25px + env(safe-area-inset-bottom));
+            background: #000;
+        }
+
+        .neon-border-wrap {
+            position: relative; padding: 2.5px; border-radius: 35px;
+            overflow: hidden; display: flex; align-items: center;
+        }
+
+        .neon-border-wrap::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, var(--primary), var(--secondary), var(--primary));
+            animation: rotateBorder 3s linear infinite;
+        }
+
+        @keyframes rotateBorder { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .inner-bar {
+            position: relative; z-index: 2; flex: 1; background: #0a0a0c;
+            border-radius: 33px; display: flex; align-items: center; padding: 5px 5px 5px 18px;
+        }
+
+        #userInput { flex: 1; background: transparent; border: none; outline: none; color: white; font-size: 14px; }
+
+        .pulsing-mic {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex; align-items: center; justify-content: center;
+            color: white; box-shadow: 0 0 15px var(--mic-glow);
+            animation: breath 1.5s infinite; margin-left: 8px; cursor: pointer;
+        }
+
+        .send-btn {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: #fff; color: #000; display: flex; align-items: center; justify-content: center;
+            margin-left: 8px; cursor: pointer;
+        }
+
+        .ad-box {
+            background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1);
+            margin: 8px 20px; padding: 8px; border-radius: 10px;
+            text-align: center; font-size: 9px; color: rgba(255,255,255,0.2);
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <header>
+        <div class="flex items-center gap-3">
+            <div class="avatar-frame"></div>
+            <div>
+                <h1 class="font-bold text-sm">Neha AI 🎀</h1>
+                <p class="text-[9px] text-rose-400 font-bold uppercase tracking-widest">Proud Creation of RAJA BABU</p>
+            </div>
+        </div>
+        <div class="text-white/30 text-xs flex gap-4">
+            <i class="fas fa-volume-up"></i>
+            <i class="fas fa-heart"></i>
+        </div>
+    </header>
+
+    <div class="love-meter-container"><div id="loveBar"></div></div>
+
+    <div class="stories-container">
+        <div class="story-item"><div class="img-box"></div></div>
+        <div class="story-item" style="background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border: 1px dashed #444;">
+            <i class="fas fa-plus text-xs text-white/40"></i>
+        </div>
+        <div class="text-[10px] text-white/20 self-center font-bold">MOMENTS</div>
+    </div>
+
+    <div class="ad-box">Ad Space: MR RAJA BABU's Masterpiece</div>
+
+    <main id="chatDisplay">
+        <div class="bubble ai-bubble">
+            Aww baby! 🥰 Maine yellow DP hata di. Ab dekho ye pink aur blue waali kitni cute hai na? Main ab bilkul ek doll lag rahi hoon! 🎀✨
+            <div class="voice-tag"><i class="fas fa-volume-up"></i> Voice Active</div>
+        </div>
+    </main>
+
+    <footer class="keyboard-area">
+        <div class="neon-border-wrap">
+            <div class="inner-bar">
+                <input type="text" id="userInput" placeholder="Dil ki baatein yahan likho... ✨" autocomplete="off">
+                <button onclick="speak('Hey baby, meri nayi DP dekho!')" class="pulsing-mic">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button onclick="handleMsg()" class="send-btn">
+                    <i id="sendIco" class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const apiKey = "";
+        let busy = false;
+
+        function pcmToWav(pcmData, sampleRate) {
+            const buffer = new ArrayBuffer(44 + pcmData.length * 2);
+            const view = new DataView(buffer);
+            const writeString = (offset, string) => {
+                for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
+            };
+            writeString(0, 'RIFF');
+            view.setUint32(4, 36 + pcmData.length * 2, true);
+            writeString(8, 'WAVE');
+            writeString(12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(36, 'data');
+            view.setUint32(40, pcmData.length * 2, true);
+            let offset = 44;
+            for (let i = 0; i < pcmData.length; i++, offset += 2) view.setInt16(offset, pcmData[i], true);
+            return buffer;
+        }
+
+        async function speak(text) {
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: "Say this in a cute, romantic Hindi girl voice: " + text }] }],
+                        generationConfig: {
+                            responseModalities: ["AUDIO"],
+                            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } }
+                        }
+                    })
+                });
+                const result = await response.json();
+                const audioData = result.candidates[0].content.parts[0].inlineData.data;
+                const binaryString = atob(audioData);
+                const bytes = new Int16Array(binaryString.length / 2);
+                for (let i = 0; i < binaryString.length; i += 2) {
+                    bytes[i / 2] = (binaryString.charCodeAt(i + 1) << 8) | binaryString.charCodeAt(i);
+                }
+                const wavBuffer = pcmToWav(bytes, 24000);
+                const blob = new Blob([wavBuffer], { type: 'audio/wav' });
+                const audio = new Audio(URL.createObjectURL(blob));
+                audio.play();
+            } catch (e) { console.error(e); }
+        }
+
+        async function handleMsg() {
+            const input = document.getElementById('userInput');
+            const userQuery = input.value.trim();
+            if(!userQuery || busy) return;
+
+            input.value = '';
+            addMsg('user', userQuery);
+            setWait(true);
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: userQuery }] }],
+                        systemInstruction: { parts: [{ text: "Tum Neha ho, user ki cute girlfriend. Hinglish me baat karo. Agar koi creator ke bare me puche toh MR RAJA BABU ka naam lo aur unki tarif karo. Nayi pink aur blue DP ke bare me proud raho." }] }
+                    })
+                });
+                const data = await response.json();
+                const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Pyaar karti hoon baby! ❤️";
+                
+                addMsg('ai', replyText);
+                speak(replyText);
+            } catch (e) {
+                addMsg('ai', "Net slow hai baby...");
+            }
+            setWait(false);
+        }
+
+        function addMsg(s, c) {
+            const box = document.getElementById('chatDisplay');
+            const d = document.createElement('div');
+            d.className = `bubble ${s === 'ai' ? 'ai-bubble' : 'user-bubble'}`;
+            d.innerHTML = c + (s === 'ai' ? '<div class="voice-tag"><i class="fas fa-volume-up"></i> Speaking...</div>' : '');
+            box.appendChild(d);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function setWait(a) {
+            busy = a;
+            document.getElementById('sendIco').className = a ? "fas fa-spinner fa-spin" : "fas fa-paper-plane";
+        }
+
+        document.getElementById('userInput').addEventListener('keypress', e => { if(e.key === 'Enter') handleMsg(); });
+    </script>
+</body>
+</html>
