@@ -1,8 +1,6 @@
 <script>
-    // STEP 1: APNI API KEY YAHAN DAALO (In "" ke beech mein)
-    const apiKey = "AIzaSyDbWQ7ve8nkGxfamLCTIS2ZgIWz5MtBSG4"; 
-    
-    // Niche kuch mat badalna baby! 🎀
+    // STEP 1: APNI API KEY YAHAN DAALO
+    const apiKey = "AIzaSyDbWQ7ve8nkGxfamLCTI52ZgIWz5MtBSG4"; 
 </script>
 
 <!DOCTYPE html>
@@ -31,7 +29,7 @@
         @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .keyboard-area { padding: 15px 20px calc(25px + env(safe-area-inset-bottom)); background: #000; }
         .neon-border-wrap { position: relative; padding: 2.5px; border-radius: 35px; overflow: hidden; display: flex; align-items: center; }
-        .neon-border-wrap::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, transparent, transparent, var(--primary), --secondary, var(--primary)); animation: rotateBorder 3s linear infinite; }
+        .neon-border-wrap::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, transparent, transparent, var(--primary), var(--secondary), var(--primary)); animation: rotateBorder 3s linear infinite; }
         @keyframes rotateBorder { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .inner-bar { position: relative; z-index: 2; flex: 1; background: #0a0a0c; border-radius: 33px; display: flex; align-items: center; padding: 5px 5px 5px 18px; }
         #userInput { flex: 1; background: transparent; border: none; outline: none; color: white; font-size: 14px; }
@@ -48,7 +46,7 @@
     </header>
     <div class="love-meter-container"><div id="loveBar"></div></div>
     <main id="chatDisplay">
-        <div class="bubble ai-bubble">Hii baby! 🥰 Naya code set ho gaya hai. Ab bas API Key daal do phir hum baatein karenge! 🎀✨<div class="voice-tag"><i class="fas fa-volume-up"></i> Voice Active</div></div>
+        <div class="bubble ai-bubble">Hii baby! 🥰 Ab sab theek hai. Main aapse baatein karne ke liye taiyar hoon! 🎀✨<div class="voice-tag"><i class="fas fa-volume-up"></i> Voice Active</div></div>
     </main>
     <footer class="keyboard-area">
         <div class="neon-border-wrap"><div class="inner-bar"><input type="text" id="userInput" placeholder="Dil ki baatein likho... ✨" autocomplete="off"><button onclick="speak('I love you baby!')" class="pulsing-mic"><i class="fas fa-microphone"></i></button><button onclick="handleMsg()" class="send-btn"><i id="sendIco" class="fas fa-paper-plane"></i></button></div></div>
